@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Lazy images</title>
+<style>
+  body { margin: 0; font-family: sans-serif; }
+  section { height: 900px; border-bottom: 1px solid #ddd; padding: 20px; box-sizing: border-box; }
+  img { display: block; width: 400px; height: 300px; background: #eee; }
+  .reveal { opacity: 0; }
+  .reveal.shown { opacity: 1; }
+</style>
+</head>
+<body>
+  <section><h1>Top</h1><img id="hero" src="/img/hero.png?color=1e88e5"></section>
+  <section><img class="native" loading="lazy" src="/img/n1.png?color=e53935&delay=150"></section>
+  <section><img class="native" loading="lazy" src="/img/n2.png?color=43a047&delay=150"></section>
+  <section><img class="observed" data-src="/img/o1.png?color=fdd835&delay=200"></section>
+  <section><img class="native" loading="lazy" src="/img/n3.png?color=8e24aa&delay=150"></section>
+  <section><img class="observed" data-src="/img/o2.png?color=00897b&delay=200"></section>
+  <section><p class="reveal" id="reveal">Revealed on scroll</p></section>
+  <section><img class="native" loading="lazy" src="/img/n4.png?color=f4511e&delay=150"></section>
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const el = e.target;
+        if (el.dataset.src) { el.src = el.dataset.src; delete el.dataset.src; }
+        if (el.classList.contains('reveal')) el.classList.add('shown');
+        io.unobserve(el);
+      }
+    });
+    document.querySelectorAll('img.observed, .reveal').forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

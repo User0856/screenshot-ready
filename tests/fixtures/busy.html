@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Busy main thread</title></head>
+<body>
+  <p>Blocks the main thread for a few seconds after load.</p>
+  <script>
+    window.addEventListener('load', () => setTimeout(() => { const end = Date.now() + 6000; while (Date.now() < end) {} }, 100));
+  </script>
+</body>
+</html>

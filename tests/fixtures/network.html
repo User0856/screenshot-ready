@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Network</title></head>
+<body>
+  <div id="out">waiting</div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    setTimeout(() => {
+      fetch('/api/slow?delay=' + (params.get('delay') || 800)).then((r) => r.json()).then(() => { document.getElementById('out').textContent = 'done'; });
+      if (params.get('hang')) fetch('/api/hang').catch(() => {});
+    }, 50);
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Animations</title>
+<style>
+  body { font-family: sans-serif; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+  .spinner { width: 60px; height: 60px; border: 6px solid #ccc; border-top-color: #e53935; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .fade { opacity: 0; animation: fadein 3s ease forwards; font-size: 32px; }
+  .slide { width: 100px; height: 40px; background: #1e88e5; transition: transform 4s linear; }
+  .slide.moved { transform: translateX(400px); }
+  .waapi { width: 80px; height: 30px; background: #43a047; }
+  input { font-size: 24px; }
+</style>
+</head>
+<body>
+  <div class="spinner" id="spinner"></div>
+  <p class="fade" id="fade">Fades in</p>
+  <div class="slide" id="slide"></div>
+  <div class="waapi" id="waapi"></div>
+  <input id="field" autofocus value="Caret here">
+  <script>
+    const slide = document.getElementById('slide');
+    void slide.offsetWidth; // flush styles so adding the class starts a transition
+    slide.classList.add('moved');
+    document.getElementById('waapi').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(300px)' }], { duration: 1000, iterations: Infinity });
+    document.getElementById('field').focus();
+  </script>
+</body>
+</html>

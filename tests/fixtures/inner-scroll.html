@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Inner scroller</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  #app { height: 100%; overflow-y: auto; }
+  section { height: 900px; }
+  img { display: block; width: 300px; height: 200px; }
+</style>
+</head>
+<body>
+  <div id="app">
+    <section>Top</section>
+    <section><img class="native" loading="lazy" src="/img/i1.png?color=e53935&delay=100"></section>
+    <section><img class="native" loading="lazy" src="/img/i2.png?color=43a047&delay=100"></section>
+    <section><img class="native" loading="lazy" src="/img/i3.png?color=1e88e5&delay=100"></section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Consent banners</title>
+<style>
+  body { margin: 0; font-family: sans-serif; overflow: hidden; }
+  header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 10px; z-index: 5; }
+  header a { margin-right: 12px; }
+  main { padding: 20px; height: 3000px; }
+  #onetrust-consent-sdk #onetrust-banner-sdk { position: fixed; bottom: 0; left: 0; right: 0; background: #222; color: #fff; padding: 20px; z-index: 2147483645; }
+  .my-cookie-bar { position: fixed; left: 20px; bottom: 20px; width: 420px; background: #fff; border: 1px solid #ccc; padding: 16px; z-index: 10000; }
+  .backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 9999; }
+  .chat { position: fixed; right: 20px; bottom: 20px; z-index: 50; }
+  .promo { position: fixed; top: 60px; left: 0; right: 0; background: #ffecb3; padding: 8px; z-index: 40; }
+  .decor { position: fixed; inset: 0; z-index: -1; background: linear-gradient(#fafafa, #eee); }
+</style>
+</head>
+<body>
+  <div class="decor" id="decor"></div>
+  <header id="site-header">
+    <a href="/">Home</a><a href="/pricing">Pricing</a><a href="/docs">Docs</a><a href="/cookies">Cookie policy</a>
+    <button id="signup">Sign up</button>
+  </header>
+  <div class="promo" id="promo">Free shipping on orders over $50 <button>Shop now</button></div>
+  <main id="content"><h1>Article title</h1><p>Body text that must stay visible.</p></main>
+  <button class="chat" id="chat">Chat with us</button>
+
+  <div id="onetrust-consent-sdk">
+    <div id="onetrust-banner-sdk">We value your privacy. We and our partners use cookies.
+      <button id="onetrust-accept-btn-handler" onclick="window.__accepted = 'onetrust'">Accept All Cookies</button>
+    </div>
+  </div>
+
+  <div class="backdrop" id="backdrop"></div>
+  <div class="my-cookie-bar" id="generic-banner">
+    <p>We use cookies to improve your experience and for marketing. Read our <a href="/privacy">privacy policy</a>.</p>
+    <button id="generic-accept" onclick="window.__accepted = 'generic'">Accept all</button>
+    <button>Reject</button>
+  </div>
+
+  <consent-widget id="shadow-host"></consent-widget>
+
+  <script>
+    customElements.define('consent-widget', class extends HTMLElement {
+      connectedCallback() {
+        const root = this.attachShadow({ mode: 'open' });
+        root.innerHTML = '<div id="shadow-banner" style="position:fixed;top:120px;right:20px;width:300px;background:#fff;border:1px solid #333;padding:12px;z-index:100000">This site uses cookies for analytics. <button id="shadow-accept">Accept</button> <button>Decline</button></div>';
+        root.getElementById('shadow-accept').onclick = () => { window.__accepted = 'shadow'; };
+      }
+    });
+    // A consent platform that shows its dialog a while after load.
+    setTimeout(() => {
+      const d = document.createElement('div');
+      d.id = 'CybotCookiebotDialog';
+      d.style.cssText = 'position:fixed;top:30%;left:30%;width:40%;background:#fff;border:2px solid #000;padding:20px;z-index:2147483640';
+      d.innerHTML = 'This website uses cookies <button onclick="window.__accepted = \'cookiebot\'">Allow all</button>';
+      document.body.appendChild(d);
+    }, 800);
+  </script>
+</body>
+</html>

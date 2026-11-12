@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Web fonts</title>
+<style>
+  @font-face { font-family: 'SlowInter'; src: url('/font/inter.woff2?delay=1500') format('woff2'); font-display: block; }
+  @font-face { font-family: 'BrokenFont'; src: url('/font/missing.woff2') format('woff2'); }
+  body { font-family: 'SlowInter', serif; font-size: 24px; }
+  .broken { font-family: 'BrokenFont', serif; }
+</style>
+</head>
+<body>
+  <h1>Heading in a slow web font</h1>
+  <p class="broken">Text in a font that fails to load</p>
+  <p id="late"></p>
+  <script>
+    // A font that only starts loading a moment after the page is up (inserted by a script).
+    setTimeout(() => {
+      const s = document.createElement('style');
+      s.textContent = "@font-face { font-family: 'LateInter'; src: url('/font/inter.woff2?delay=600&late=1') format('woff2'); } #late { font-family: 'LateInter', monospace; }";
+      document.head.appendChild(s);
+      document.getElementById('late').textContent = 'Late font text';
+    }, 200);
+  </script>
+</body>
+</html>

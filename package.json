@@ -1,0 +1,88 @@
+{
+  "name": "screenshot-ready",
+  "version": "0.1.0",
+  "description": "Make a Playwright or Puppeteer page ready for page.screenshot(): wait for web fonts, load lazy images, hide cookie banners, freeze animations.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc -p tsconfig.cjs.json && node scripts/cjs-package.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  },
+  "keywords": [
+    "screenshot",
+    "playwright",
+    "puppeteer",
+    "headless-chrome",
+    "cookie-banner",
+    "consent",
+    "lazy-loading",
+    "lazy-images",
+    "web-fonts",
+    "full-page-screenshot",
+    "visual-testing",
+    "web-scraping"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/User0856/screenshot-ready.git"
+  },
+  "homepage": "https://github.com/User0856/screenshot-ready#readme",
+  "bugs": {
+    "url": "https://github.com/User0856/screenshot-ready/issues"
+  },
+  "peerDependencies": {
+    "playwright": ">=1.30.0",
+    "playwright-core": ">=1.30.0",
+    "puppeteer": ">=19.0.0",
+    "puppeteer-core": ">=19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    },
+    "playwright-core": {
+      "optional": true
+    },
+    "puppeteer": {
+      "optional": true
+    },
+    "puppeteer-core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@types/node": "^26.6.6",
+    "playwright": "^1.65.0",
+    "puppeteer": "^25.17.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  }
+}

@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Infinite feed</title>
+<style>body { margin: 0; } .item { height: 400px; border-bottom: 1px solid #ccc; }</style></head>
+<body>
+  <div id="feed"></div>
+  <div id="sentinel" style="height: 1px"></div>
+  <script>
+    const feed = document.getElementById('feed');
+    const add = (n) => { for (let i = 0; i < n; i++) { const d = document.createElement('div'); d.className = 'item'; d.textContent = 'Item ' + feed.children.length; feed.appendChild(d); } };
+    add(5);
+    new IntersectionObserver((e) => { if (e[0].isIntersecting) add(5); }).observe(document.getElementById('sentinel'));
+  </script>
+</body>
+</html>

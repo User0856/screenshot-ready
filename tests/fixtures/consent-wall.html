@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Consent wall</title>
+<style>
+  body { margin: 0; font-family: serif; }
+  .wall { position: fixed; inset: 0; background: rgba(40, 40, 40, 0.6); z-index: 10000001; display: flex; align-items: center; justify-content: center; }
+  .box { background: #fff; width: 600px; padding: 30px; }
+  .partners a { display: inline-block; margin-right: 6px; font-size: 11px; }
+</style>
+</head>
+<body>
+  <main><h1>Titre de l'article</h1><p>Texte.</p></main>
+  <div class="wall" id="wall">
+    <div class="box">
+      <h2>Soutenez un journalisme fiable</h2>
+      <p>L'accès gratuit au site est subordonné à votre consentement sur l'utilisation de vos données personnelles. Nos partenaires utilisent des cookies.</p>
+      <p class="partners"><a href="/p/1">Partenaire 1</a><a href="/p/2">Partenaire 2</a><a href="/p/3">Partenaire 3</a><a href="/p/4">Partenaire 4</a><a href="/p/5">Partenaire 5</a><a href="/p/6">Partenaire 6</a><a href="/p/7">Partenaire 7</a><a href="/p/8">Partenaire 8</a><a href="/p/9">Partenaire 9</a><a href="/p/10">Partenaire 10</a><a href="/p/11">Partenaire 11</a></p>
+      <button onclick="window.__accepted = true">Accepter et continuer</button>
+      <button>S'abonner</button>
+    </div>
+  </div>
+</body>
+</html>
