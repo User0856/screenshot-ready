@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "screenshot-ready"
+version = "0.1.0"
+description = "Make a Playwright page ready for page.screenshot(): wait for web fonts, load lazy images, hide cookie banners, freeze animations."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "SnapRender" }]
+requires-python = ">=3.9"
+dependencies = ["playwright>=1.40"]
+keywords = [
+  "screenshot",
+  "playwright",
+  "headless-chrome",
+  "cookie-banner",
+  "consent",
+  "lazy-loading",
+  "web-fonts",
+  "full-page-screenshot",
+  "visual-testing",
+  "web-scraping",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Testing",
+  "Topic :: Internet :: WWW/HTTP :: Browsers",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/User0856/screenshot-ready"
+Repository = "https://github.com/User0856/screenshot-ready"
+Issues = "https://github.com/User0856/screenshot-ready/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/screenshot_ready"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/screenshot_ready", "tests", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]

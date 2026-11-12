@@ -24,4 +24,39 @@ jobs:
       - run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
       - run: npm run typecheck
       - run: npm run build
+      # The build regenerates the Python package's copy of the browser-side code; it must be committed.
+      - name: Python copy of src/inpage.ts is up to date
+        run: git diff --exit-code python/src/screenshot_ready/inpage.js
       - run: npm test
+
+  python:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Oldest supported Playwright and Python.
+          - os: ubuntu-22.04
+            python: '3.9'
+            playwright: '==1.40.0'
+          - os: ubuntu-latest
+            python: '3.13'
+            playwright: ''
+    steps:
+      - uses: actions/checkout@v4
+      # The fixture server serves a web font from the npm dev dependencies, shared with the Node tests.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - working-directory: python
+        run: pip install "playwright${{ matrix.playwright }}" . pytest mypy
+      - working-directory: python
+        run: python -m playwright install --with-deps chromium
+      - working-directory: python
+        run: python -m mypy --strict src/screenshot_ready
+      - working-directory: python
+        run: python -m pytest -v

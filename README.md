@@ -6,6 +6,8 @@ Get a Playwright or Puppeteer page ready for `page.screenshot()`: wait for web f
 npm install screenshot-ready
 ```
 
+Using Python? `pip install screenshot-ready` gives the same steps for Playwright's sync and async APIs, with the same browser-side code. See [python/README.md](python/README.md).
+
 ## Why
 
 `page.screenshot()` looks fine on example.com. On real sites the same call keeps producing captures like these:
@@ -54,6 +56,23 @@ await browser.close();
 ```
 
 CommonJS works too: `const { prepareForCapture } = require('screenshot-ready')`.
+
+### Python
+
+```python
+from playwright.sync_api import sync_playwright
+from screenshot_ready import prepare_for_capture  # async: screenshot_ready.async_api
+
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page(viewport={"width": 1280, "height": 800})
+    page.goto("https://example.com", wait_until="load")
+    prepare_for_capture(page)
+    page.screenshot(path="page.png", full_page=True)
+    browser.close()
+```
+
+Options use snake_case (`hide_mode`, `max_height`, `quiet_ms`) and the report has the same steps. The [Python README](python/README.md) has the full API.
 
 ### One call
 
@@ -233,6 +252,17 @@ npm test
 ```
 
 The tests drive headless Chromium through both Playwright and Puppeteer against local fixture pages (lazy images, consent banners, slow web fonts, animations) served on 127.0.0.1.
+
+All code that runs inside the page lives in `src/inpage.ts`. `npm run build` also writes the compiled functions to `python/src/screenshot_ready/inpage.js`, which the Python package sends to the page, so both ports run the same code. Commit that file with your change; CI fails when it is out of date.
+
+The Python tests use the same fixture pages:
+
+```bash
+cd python
+python -m venv .venv && .venv/bin/pip install -e . pytest
+.venv/bin/python -m playwright install chromium
+.venv/bin/python -m pytest
+```
 
 ## License
 

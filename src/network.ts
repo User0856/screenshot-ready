@@ -1,3 +1,4 @@
+import { resourcesQuietInPage } from './inpage.js';
 import { GRACE_MS, inPage, withTimeout, type PageLike } from './page.js';
 
 export interface WaitForNetworkQuietOptions {
@@ -121,33 +122,6 @@ export async function waitForNetworkQuiet(page: PageLike, options: WaitForNetwor
   } finally {
     tracker.stop();
   }
-}
-
-function resourcesQuietInPage(arg: { quietMs: number; timeoutMs: number }) {
-  return new Promise<{ quiet: boolean; ms: number }>((resolve) => {
-    const started = performance.now();
-    let last = started;
-    let observer: PerformanceObserver | undefined;
-    try {
-      observer = new PerformanceObserver(() => {
-        last = performance.now();
-      });
-      observer.observe({ type: 'resource', buffered: false });
-    } catch {
-      observer = undefined;
-    }
-    const tick = () => {
-      const now = performance.now();
-      if (now - last >= arg.quietMs) {
-        observer?.disconnect();
-        resolve({ quiet: true, ms: now - started });
-      } else if (now - started >= arg.timeoutMs) {
-        observer?.disconnect();
-        resolve({ quiet: false, ms: now - started });
-      } else setTimeout(tick, 50);
-    };
-    tick();
-  });
 }
 
 async function inPageQuiet(page: PageLike, quietMs: number, timeout: number): Promise<WaitForNetworkQuietResult> {
