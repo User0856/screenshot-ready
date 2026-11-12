@@ -13,7 +13,10 @@ describe.skipIf(!built).each(drivers)('built package ($name)', (driver) => {
   const ctx = useBrowser(driver);
 
   it.each(['esm', 'cjs'] as const)('%s build prepares a page', async (format) => {
-    const lib = format === 'esm' ? await import('../dist/esm/index.js') : require('../dist/cjs/index.js');
+    // Paths in variables: the type check runs before the build, so these must not be resolved statically.
+    const esm = '../dist/esm/index.js';
+    const cjs = '../dist/cjs/index.js';
+    const lib = format === 'esm' ? await import(esm) : require(cjs);
     const page = await driver.newPage();
     await page.goto(ctx.server.url('/kitchen-sink.html'), { waitUntil: 'domcontentloaded' });
     const result = await lib.prepareForCapture(page);
