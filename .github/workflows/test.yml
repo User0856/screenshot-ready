@@ -20,6 +20,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npx puppeteer browsers install chrome
+      # Ubuntu 23.10+ blocks the unprivileged user namespaces Chrome's sandbox needs (Puppeteer's documented fix).
+      - run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
       - run: npm run typecheck
       - run: npm run build
       - run: npm test
